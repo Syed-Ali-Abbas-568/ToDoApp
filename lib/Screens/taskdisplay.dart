@@ -1,4 +1,13 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+
 import 'package:flutter/material.dart';
+
+import '../Screens/userInput.dart';
+
+import '../models/database.dart';
+import '../models/todo_model.dart';
+import '../widgets/todo_list_data.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({Key? key}) : super(key: key);
@@ -8,51 +17,38 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  late TextEditingController controller;
-  @override
-  void initstate() {
-    super.initState();
-    controller = TextEditingController();
+  var textController = TextEditingController();
+  var db = DatabaseConnect();
+  void addItem(Todo todo) async {
+    await db.insertTodo(todo);
+    setState(() {});
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  void deleteItem(Todo todo) async {
+    await db.delteTodo(todo);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    title: const Text("Enter New Task"),
-                    content: TextField(
-                        autofocus: true,
-                        decoration:
-                            InputDecoration(hintText: 'Enter your todo here')),
-                    //controller: controller,
-                    actions: [
-                      TextButton(
-                        child: Text('SUBMIT'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      TextButton(
-                        child: Text('CANCEL'),
-                        onPressed: () => Navigator.pop(context),
-                      )
-                    ]),
-              );
-            },
-            child: const Icon(Icons.add, color: Colors.yellow)),
-        appBar: AppBar(
-          title: const Text("My Tasks"),
-          backgroundColor: Colors.black,
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(child: Column(children: <Widget>[])));
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 219, 170, 64),
+        title: const Text("My To-Do!", style: TextStyle(fontSize: 24)),
+        centerTitle: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Todolist(
+            insertFunction: addItem,
+            deleteFunction: deleteItem,
+          ),
+          UserInput(
+            insertFuntion: addItem,
+          ),
+        ],
+      ),
+    );
   }
 }
