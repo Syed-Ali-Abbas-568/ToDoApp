@@ -29,6 +29,11 @@ class _TaskListState extends State<TaskList> {
     setState(() {});
   }
 
+  void updateItem(Todo todo) async {
+    await db.UpdateTodo(todo);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +47,12 @@ class _TaskListState extends State<TaskList> {
         children: [
           Todolist(
             insertFunction: addItem,
+            updateFunction: updateItem,
             deleteFunction: deleteItem,
           ),
           UserInput(
             insertFuntion: addItem,
+            updateFunction: updateItem,
           ),
         ],
       ),

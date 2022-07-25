@@ -33,6 +33,16 @@ isChecked INTEGER)
     );
   }
 
+  Future<void> UpdateTodo(Todo todo) async {
+    final db = await database;
+    await db.update(
+      'todo',
+      todo.toMap(),
+      where: 'id==?',
+      whereArgs: [todo.id],
+    );
+  }
+
   Future<void> delteTodo(Todo todo) async {
     final db = await database;
     await db.delete(

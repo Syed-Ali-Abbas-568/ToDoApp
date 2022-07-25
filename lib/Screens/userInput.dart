@@ -6,8 +6,10 @@ import '../models/todo_model.dart';
 class UserInput extends StatelessWidget {
   var textController = TextEditingController();
   final Function insertFuntion;
-
-  UserInput({required this.insertFuntion, Key? key}) : super(key: key);
+  final Function updateFunction;
+  UserInput(
+      {required this.insertFuntion, required this.updateFunction, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,6 +37,7 @@ class UserInput extends StatelessWidget {
                     creationDate: DateTime.now(),
                     isChecked: false);
                 insertFuntion(myTodo);
+                updateFunction(myTodo);
               },
               child: Container(
                 color: Colors.lightGreen,
