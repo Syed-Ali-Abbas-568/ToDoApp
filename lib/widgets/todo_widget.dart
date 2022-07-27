@@ -7,7 +7,9 @@ import 'package:intl/intl.dart';
 class Todocard extends StatefulWidget {
   final int id;
   final String title;
+  final String description;
   final DateTime creationDate;
+  final DateTime dueDate;
   bool isChecked;
 
   final Function insertFunction;
@@ -16,7 +18,9 @@ class Todocard extends StatefulWidget {
   Todocard(
       {required this.id,
       required this.title,
+      required this.description,
       required this.creationDate,
+      required this.dueDate,
       required this.isChecked,
       required this.insertFunction,
       required this.updateFunction,
@@ -29,12 +33,15 @@ class Todocard extends StatefulWidget {
 
 class _TodocardState extends State<Todocard> {
   var textController = TextEditingController();
+  var descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var anotherTodo = Todo(
         id: widget.id,
         title: widget.title,
+        description: widget.description,
         creationDate: widget.creationDate,
+        dueDate: widget.dueDate,
         isChecked: widget.isChecked);
 
     return Card(
@@ -56,11 +63,27 @@ class _TodocardState extends State<Todocard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.title),
+                const Text('Title:'),
+                Text(
+                  widget.title,
+                  style: const TextStyle(fontFamily: 'RobotoMono'),
+                ),
+                const Text('Description:'),
+                Text(
+                  widget.description,
+                  style: const TextStyle(fontFamily: 'RobotoMono'),
+                ),
                 const SizedBox(height: 5),
+                const Text('Creation Date:'),
                 Text(
                   DateFormat('dd MMM yyyy - hh:mm aaa')
                       .format(widget.creationDate),
+                  style: const TextStyle(fontFamily: 'RobotoMono'),
+                ),
+                const Text('Due Date:'),
+                Text(
+                  DateFormat('dd MMM yyyy - hh:mm aaa').format(widget.dueDate),
+                  style: const TextStyle(fontFamily: 'RobotoMono'),
                 ),
               ],
             ),
@@ -71,10 +94,30 @@ class _TodocardState extends State<Todocard> {
                 context: context,
                 builder: (ctx) => AlertDialog(
                   title: const Text('Update this todo'),
-                  content: TextField(
-                    controller: textController,
-                    decoration:
-                        InputDecoration(hintText: 'Write New Description here'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: textController,
+                        style: const TextStyle(fontFamily: 'RobotoMono'),
+                        decoration: const InputDecoration(
+                          labelText: 'Title',
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                          floatingLabelStyle:
+                              TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextField(
+                        controller: descriptionController,
+                        style: const TextStyle(fontFamily: 'RobotoMono'),
+                        decoration: const InputDecoration(
+                          labelText: 'Description',
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                          floatingLabelStyle:
+                              TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                   actions: <Widget>[
                     FlatButton(
@@ -87,7 +130,9 @@ class _TodocardState extends State<Todocard> {
                         var tempTodo = Todo(
                             id: widget.id,
                             title: textController.text,
+                            description: descriptionController.text,
                             creationDate: widget.creationDate,
+                            dueDate: widget.dueDate,
                             isChecked: widget.isChecked);
 
                         widget.updateFunction(tempTodo);
@@ -98,7 +143,6 @@ class _TodocardState extends State<Todocard> {
                   ],
                 ),
               );
-              //widget.updateFunction(anotherTodo);
             },
             icon: const Icon(Icons.edit),
           ),
@@ -109,7 +153,7 @@ class _TodocardState extends State<Todocard> {
                   builder: (ctx) => AlertDialog(
                         title: const Text('Alert'),
                         content: const Text(
-                            'This To-do will be deleted forever.Do you want to procced?'),
+                            'This To-do will be deleted forever.Do you want to proceed?'),
                         actions: <Widget>[
                           FlatButton(
                               textColor: Colors.black,

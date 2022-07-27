@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_app/Screens/homepage.dart';
+import 'package:todo_app/Screens/taskdisplay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +11,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,9 +19,9 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.bowlbyOneScTextTheme(
           Theme.of(context).textTheme,
         ),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 68, 66, 66),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
-      home: const HomePage(),
+      home: const TaskList(),
     );
   }
 }

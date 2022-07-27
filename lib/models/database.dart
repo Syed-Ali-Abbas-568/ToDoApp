@@ -19,7 +19,9 @@ class DatabaseConnect {
 CREATE TABLE todo(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
 title TEXT,
+description TEXT,
 creationDate TEXT,
+dueDate TEXT,
 isChecked INTEGER)
 ''');
   }
@@ -54,6 +56,7 @@ isChecked INTEGER)
 
   Future<List<Todo>> getTodo() async {
     final db = await database;
+
     List<Map<String, dynamic>> items = await db.query(
       'todo',
       orderBy: 'id DESC',
@@ -63,7 +66,51 @@ isChecked INTEGER)
       (i) => Todo(
         id: items[i]['id'],
         title: items[i]['title'],
+        description: items[i]['description'],
         creationDate: DateTime.parse(items[i]['creationDate']),
+        dueDate: DateTime.parse(items[i]['dueDate']),
+        isChecked: items[i]['isChecked'] == 1 ? true : false,
+      ),
+    );
+  }
+
+  Future<List<Todo>> getTodoFinished() async {
+    final db = await database;
+
+    List<Map<String, dynamic>> items = await db.query(
+      'todo',
+      where: 'isChecked==1',
+      orderBy: 'id DESC',
+    );
+    return List.generate(
+      items.length,
+      (i) => Todo(
+        id: items[i]['id'],
+        title: items[i]['title'],
+        description: items[i]['description'],
+        creationDate: DateTime.parse(items[i]['creationDate']),
+        dueDate: DateTime.parse(items[i]['dueDate']),
+        isChecked: items[i]['isChecked'] == 1 ? true : false,
+      ),
+    );
+  }
+
+  Future<List<Todo>> getTodoInProgress() async {
+    final db = await database;
+
+    List<Map<String, dynamic>> items = await db.query(
+      'todo',
+      where: 'isChecked==0',
+      orderBy: 'id DESC',
+    );
+    return List.generate(
+      items.length,
+      (i) => Todo(
+        id: items[i]['id'],
+        title: items[i]['title'],
+        description: items[i]['description'],
+        creationDate: DateTime.parse(items[i]['creationDate']),
+        dueDate: DateTime.parse(items[i]['dueDate']),
         isChecked: items[i]['isChecked'] == 1 ? true : false,
       ),
     );

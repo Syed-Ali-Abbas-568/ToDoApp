@@ -18,6 +18,7 @@ class TaskList extends StatefulWidget {
 
 class _TaskListState extends State<TaskList> {
   var textController = TextEditingController();
+  //hmmm
   var db = DatabaseConnect();
   void addItem(Todo todo) async {
     await db.insertTodo(todo);
@@ -36,25 +37,57 @@ class _TaskListState extends State<TaskList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 219, 170, 64),
-        title: const Text("My To-Do!", style: TextStyle(fontSize: 24)),
-        centerTitle: true,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Todolist(
-            insertFunction: addItem,
-            updateFunction: updateItem,
-            deleteFunction: deleteItem,
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 219, 64, 64),
+          title: const Text("My To-Do!", style: TextStyle(fontSize: 24)),
+          centerTitle: true,
+          bottom: const TabBar(
+            tabs: <Widget>[
+              Tab(
+                text: 'In-Progress',
+                icon: Icon(Icons.timer_rounded),
+              ),
+              Tab(
+                text: 'Completed',
+                icon: Icon(Icons.check),
+              ),
+            ],
           ),
-          UserInput(
-            insertFuntion: addItem,
-            updateFunction: updateItem,
-          ),
-        ],
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: TabBarView(
+                children: [
+                  Center(
+                    child: Todolist(
+                      insertFunction: addItem,
+                      updateFunction: updateItem,
+                      deleteFunction: deleteItem,
+                    ),
+                  ),
+                  Center(
+                    child: TodolistFinished(
+                      insertFunction: addItem,
+                      updateFunction: updateItem,
+                      deleteFunction: deleteItem,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            UserInput(
+              insertFuntion: addItem,
+              updateFunction: updateItem,
+            ),
+          ],
+        ),
       ),
     );
   }
