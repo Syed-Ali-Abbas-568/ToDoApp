@@ -21,7 +21,5 @@ Todo App made with SQL Lite and flutter to create a mobile task list.
 ## Video defining the use cases one by one
 
 
-[![Watch the video](https://img.youtube.com/vi/nTQUwghvy5Q/default.jpg)](https://i9.ytimg.com/vi_webp/vB5bFekQGdw/mqdefault.webp?v=62fe57db&sqp=CPSu-ZcG&rs=AOn4CLBlreTrAPutF2-9SSHc5CSDcj6wxg)](https://youtu.be/nTQUwghvy5Q](https://youtu.be/vB5bFekQGdw)
-
-
+[![Watch the video](https://i9.ytimg.com/vi_webp/vB5bFekQGdw/mqdefault.webp?v=62fe57db&sqp=CPSu-ZcG&rs=AOn4CLBlreTrAPutF2-9SSHc5CSDcj6wxg)](https://youtu.be/vB5bFekQGdw)
 
